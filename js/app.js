@@ -13,7 +13,7 @@ module.factory('dataFactory', function() {
 });
 
 module.value('model', {
-
+    resultTraining: []
 });
 
 module.factory('selectAnswerFactory', function (model) {
@@ -21,7 +21,9 @@ module.factory('selectAnswerFactory', function (model) {
         if(model.isSelected) return;
         if(this.item == model.question.translation) {
             this.verification = 'correct-answer';
+            model.resultTraining.push({word: model.question.word, id: model.question.id, result: true});
         } else {
+            model.resultTraining.push({word: model.question.word, id: model.question.id, result: false});
             this.verification = 'uncorrect-answer'
             angular.forEach($('.translation'), function(element, key) {
                 var scope = angular.element(element).scope();
@@ -39,13 +41,16 @@ module.factory('nextFactory', function (model, dataFactory) {
             delete angular.element(element).scope().verification;
         });
         model.isSelected = false;
+        if(this.textButton == 'finish') {
+            model.templateUrl = "/js/template/result.html";
+            return;
+        }
+        dataFactory.step++;
         if(dataFactory.step >= dataFactory.numberOfSteps - 1) {
             this.textButton = 'finish';
-        } else {
-            dataFactory.step++;
-            model.question = dataFactory.getQuestion();
-            model.answers = dataFactory.getAnswers();
         }
+        model.question = dataFactory.getQuestion();
+        model.answers = dataFactory.getAnswers();
     }
 });
 
@@ -60,4 +65,25 @@ module.controller('trainingController', function ($scope, model, selectAnswerFac
 module.controller('nextButtonController', function ($scope, nextFactory) {
     $scope.textButton = 'next';
     $scope.next = nextFactory;
+});
+
+module.controller('trainingContainerController', function($scope, model) {
+    $scope.model = model;
+    model.templateUrl = "/js/template/training.html";
+});
+
+module.controller('resultController', function($scope, model) {
+    $scope.model = model;
+    $scope.resultClass = function(index) {
+        if (model.resultTraining[index].result)
+            return 'correct-answer';
+        else
+            return 'uncorrect-answer';
+    };
+    $scope.resultText = function(index) {
+        if (model.resultTraining[index].result)
+            return 'ok';
+        else
+            return 'error';
+    };
 });

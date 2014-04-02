@@ -1,0 +1,3 @@
+<div ng-controller="resultController" ng-repeat="item in model.resultTraining">
+    {{item.word}} <span ng-class="resultClass($index)">{{resultText($index)}}</span>
+</div>

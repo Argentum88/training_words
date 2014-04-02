@@ -228,6 +228,10 @@ div.search-form
 	background: #80CFFF;
 }
 
-.correct-answer {background: green}
+div.correct-answer {background: green}
 
-.uncorrect-answer {background: red}
+div.uncorrect-answer {background: red}
+
+span.correct-answer {color: green}
+
+span.uncorrect-answer {color: red}
