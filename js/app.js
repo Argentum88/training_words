@@ -35,7 +35,7 @@ module.factory('selectAnswerFactory', function (model) {
     }
 });
 
-module.factory('nextFactory', function (model, dataFactory) {
+module.factory('nextFactory', function ($http, model, dataFactory) {
     return function () {
         angular.forEach($('.translation'), function(element, key) {
             delete angular.element(element).scope().verification;
@@ -43,6 +43,7 @@ module.factory('nextFactory', function (model, dataFactory) {
         model.isSelected = false;
         if(this.textButton == 'finish') {
             model.templateUrl = "/js/template/result.html";
+            $http.put('http://trainingwords.loc/index.php/training/ProcessingOfResultsOfTraining', model.resultTraining);
             return;
         }
         dataFactory.step++;

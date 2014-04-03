@@ -5,4 +5,5 @@ protected/runtime/*
 protected/data/*.db
 themes/classic/views/
 js/vendor/*
+js/data.js
 .idea/*
