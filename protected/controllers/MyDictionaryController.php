@@ -75,7 +75,6 @@ class MyDictionaryController extends Controller
 		{
             if($CreatorWords->addWordToDictionary()) {
                 $this->redirect(array('index'));
-                //$this->redirect(array('view','id'=>$modelMyDictionary->id));
             }
         }
 
